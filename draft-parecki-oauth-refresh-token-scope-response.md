@@ -3,7 +3,7 @@ title: "OAuth 2.0 Refresh Token Scope"
 abbrev: "OAuth RT Scope"
 category: std
 
-docname: draft-parecki-oauth-refresh-token-scope-response
+docname: draft-parecki-oauth-refresh-token-scope-response-latest
 submissiontype: IETF
 number:
 date:
