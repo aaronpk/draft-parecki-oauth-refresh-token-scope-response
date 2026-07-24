@@ -29,11 +29,6 @@ author:
 
 normative:
   I-D.ietf-oauth-v2-1:
-  IANA.oauth-parameters:
-    title: "OAuth Parameters"
-    author:
-      org: IANA
-    target: https://www.iana.org/assignments/oauth-parameters
 
 informative:
   I-D.ietf-oauth-security-topics:
