@@ -29,6 +29,7 @@ author:
 
 normative:
   I-D.ietf-oauth-v2-1:
+  RFC6749:
 
 informative:
   I-D.ietf-oauth-security-topics:
@@ -455,8 +456,7 @@ authenticated client.
 # IANA Considerations
 
 This document defines the following value for the IANA "OAuth
-Parameters" registry of {{IANA.oauth-parameters}} established by
-{{I-D.ietf-oauth-v2-1}}.
+Parameters" registry established by {{RFC6749}}.
 
 Parameter Name:
 : `refresh_token_scope`
