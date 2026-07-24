@@ -28,7 +28,7 @@ author:
     email: aaron@parecki.com
 
 normative:
-  RFC6749:
+  I-D.ietf-oauth-v2-1:
   IANA.oauth-parameters:
     title: "OAuth Parameters"
     author:
@@ -57,12 +57,12 @@ a new authorization flow.
 
 # Introduction
 
-The OAuth 2.0 Authorization Framework {{RFC6749}} defines a token
+The OAuth 2.0 Authorization Framework {{I-D.ietf-oauth-v2-1}} defines a token
 endpoint response that includes a `scope` parameter indicating the
 scope of the issued access token. When an authorization server issues
 a refresh token alongside an access token, the refresh token may be
 authorized for a broader set of scopes than the initial access token.
-{{RFC6749}} does not define a mechanism for the authorization server
+{{I-D.ietf-oauth-v2-1}} does not define a mechanism for the authorization server
 to communicate this broader authorization to the client.
 
 This gap creates a practical problem: a client that receives a refresh
@@ -112,7 +112,7 @@ the right time.
 
 This document uses the terms "access token", "authorization server",
 "client", "refresh token", "scope", "token endpoint", and "token
-response" as defined by {{RFC6749}}.
+response" as defined by {{I-D.ietf-oauth-v2-1}}.
 
 
 # The refresh_token_scope Response Parameter
@@ -123,7 +123,7 @@ use in OAuth 2.0 token endpoint responses.
 `refresh_token_scope`:
 : OPTIONAL. The scope authorized for the issued refresh token,
   expressed as a space-separated list of scope values as described in
-  Section 3.3 of {{RFC6749}}. This parameter MUST be included in the
+  Section 1.4.1 of {{I-D.ietf-oauth-v2-1}}. This parameter MUST be included in the
   token response when a refresh token is issued and its authorized
   scope differs from the access token scope indicated by the `scope`
   parameter. This parameter MAY be included even when the refresh
@@ -159,7 +159,7 @@ that includes a `scope` parameter, it MUST verify that all requested
 scope values are within the authorized scope of the presented refresh
 token. If the requested scope exceeds the refresh token's authorized
 scope, the authorization server MUST return an `invalid_scope` error
-as defined in Section 5.2 of {{RFC6749}}.
+as defined in Section 3.2.4 of {{I-D.ietf-oauth-v2-1}}.
 
 
 # Client Behavior
@@ -182,16 +182,18 @@ A client that does not receive a `refresh_token_scope` parameter in
 the token response MUST assume that the refresh token is authorized
 only for the scope indicated by the `scope` parameter (or, if the
 `scope` parameter is also absent, the scope originally requested by
-the client per Section 5.1 of {{RFC6749}}).
+the client per Section 3.2.3 of {{I-D.ietf-oauth-v2-1}}).
 
 
 # Use in the Authorization Code Flow
 
 In the authorization code flow, the resource owner authorizes a set
-of scopes during the authorization request. The authorization server
-may issue an initial access token scoped to only what the client
-immediately requires, while issuing a refresh token authorized for the
-full set of scopes approved by the resource owner.
+of scopes during the authorization request. As required by
+{{I-D.ietf-oauth-v2-1}}, clients MUST use PKCE with the authorization
+code flow. The authorization server may issue an initial access token
+scoped to only what the client immediately requires, while issuing a
+refresh token authorized for the full set of scopes approved by the
+resource owner.
 
 This pattern is useful when:
 
@@ -216,7 +218,9 @@ scopes:
 GET /authorize?response_type=code
   &client_id=s6BhdRkqt3
   &scope=profile%20payments%3Aread%20payments%3Awrite
-  &redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb HTTP/1.1
+  &redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb
+  &code_challenge=E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM
+  &code_challenge_method=S256 HTTP/1.1
 Host: authorization-server.example
 ~~~
 
@@ -231,6 +235,7 @@ Content-Type: application/x-www-form-urlencoded
 grant_type=authorization_code
 &code=SplxlOBeZQQYbYS6WxSbIA
 &redirect_uri=https%3A%2F%2Fclient.example.com%2Fcb
+&code_verifier=dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk
 ~~~
 
 The authorization server issues an access token scoped to `profile`
@@ -285,13 +290,13 @@ Cache-Control: no-store
 
 # Use in the Client Credentials Flow
 
-Section 4.4.3 of {{RFC6749}} states that a refresh token SHOULD NOT
-be included in the response to a client credentials grant. This
-guidance reflects the typical case where the client can simply
-re-authenticate to obtain a new access token. However, {{RFC6749}}
-does not prohibit issuing a refresh token for a client credentials
-grant, and there are deployment scenarios where doing so is
-appropriate.
+Section 4.2 of {{I-D.ietf-oauth-v2-1}} states that a refresh token
+SHOULD NOT be included in the response to a client credentials grant.
+This guidance reflects the typical case where the client can simply
+re-authenticate to obtain a new access token. However,
+{{I-D.ietf-oauth-v2-1}} does not prohibit issuing a refresh token for
+a client credentials grant, and there are deployment scenarios where
+doing so is appropriate.
 
 In machine-to-machine contexts, a client may be pre-authorized for a
 range of operations that span different privilege levels. Rather than
@@ -316,7 +321,7 @@ kept short relative to the refresh token's lifetime.
 
 Authorization servers that choose to issue refresh tokens in client
 credentials responses SHOULD apply the same refresh token security
-requirements described in Section 8 of {{RFC6749}} and in
+requirements described in Section 7 of {{I-D.ietf-oauth-v2-1}} and in
 {{I-D.ietf-oauth-security-topics}}. In particular, refresh token
 rotation SHOULD be applied, and the refresh token SHOULD be bound to
 the client using mTLS {{RFC8705}} or DPoP {{RFC9449}}.
@@ -395,7 +400,7 @@ refresh token.
 If the client omits the `scope` parameter from the refresh token grant
 request, the authorization server issues an access token with the same
 scope as the previously issued access token for that refresh token,
-consistent with Section 6 of {{RFC6749}}.
+consistent with Section 4.3 of {{I-D.ietf-oauth-v2-1}}.
 
 If the client includes a `scope` parameter in the refresh token grant
 request, the authorization server MUST verify the requested scope is
@@ -456,7 +461,7 @@ authenticated client.
 
 This document defines the following value for the IANA "OAuth
 Parameters" registry of {{IANA.oauth-parameters}} established by
-{{RFC6749}}.
+{{I-D.ietf-oauth-v2-1}}.
 
 Parameter Name:
 : `refresh_token_scope`
