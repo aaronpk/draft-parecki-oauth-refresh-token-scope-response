@@ -9,17 +9,17 @@ number:
 date:
 consensus: true
 v: 3
-area: SEC
-workgroup: OAuth Working Group
+area: "Security"
+workgroup: "Web Authorization Protocol"
 keyword:
  - refresh-token
  - scope
 venue:
-  group: OAuth
-  type: Working Group
-  mail: oauth@ietf.org
-  github: aaronpk/draft-parecki-oauth-refresh-token-scope-response
-  latest: https://github.com/aaronpk/draft-parecki-oauth-refresh-token-scope-response
+  group: "Web Authorization Protocol"
+  type: "Working Group"
+  mail: "oauth@ietf.org"
+  github: "aaronpk/draft-parecki-oauth-refresh-token-scope-response"
+  latest: "https://aaronpk.github.io/draft-parecki-oauth-refresh-token-scope-response/draft-parecki-oauth-refresh-token-scope-response.html"
 
 author:
  -
